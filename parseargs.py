@@ -43,6 +43,19 @@ class PDFArgumentParser():
             nargs="+",
             type=self.parse_input
         )
+        #NUEVAS FUNCIONALIDADES
+        self.parser.add_argument(
+            "-r", "--reorder",
+            help="Reorders pages according to the sequence provided by the user '--reorder 4 3 1 2'",
+            nargs="+",
+            type=int
+        )
+        self.parser.add_argument(
+            "-img", "--to-image",
+            help="Converts specified pages to PNG images in the output folder '--to-image 1-5' or single pages '--to-image 1 3'",
+            nargs="+",
+            type=self.parse_input
+        )
 
 
     def _configure_subparsers(self):
@@ -79,3 +92,5 @@ class PDFArgumentParser():
 
     def get_args(self):
         return self.parser.parse_args()
+    
+    

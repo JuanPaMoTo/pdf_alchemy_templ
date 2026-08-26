@@ -33,7 +33,12 @@ uv run main.py
 
 # Commands
 
-> Add here the commands
+Se han añadido dos nuevas características al CLI de PDF Alchemy:
+
+1. **Reordenar páginas (`--reorder`)**: Permite reorganizar las páginas de un PDF según una secuencia específica dada por el usuario. 
+   * *Ejemplo de uso:* `uv run main.py -f input.pdf -o output.pdf --reorder 4 3 1 2`
+2. **Convertir a Imagen (`--to-image`)**: Convierte un rango de páginas o páginas individuales especificadas en imágenes formato PNG (150 DPI).
+   * *Ejemplo de uso:* `uv run main.py -f input.pdf -o salida/ --to-image 1-5`
 
 # Run tests
 

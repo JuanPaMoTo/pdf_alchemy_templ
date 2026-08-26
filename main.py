@@ -29,6 +29,10 @@ def main():
         app.del_range()
     elif app.args.crop_half:
         app.crop_half()
+    elif getattr(args, 'reorder', None):
+        app.reorder_pages()
+    elif getattr(args, 'to_image', None):
+        app.to_image()
     elif app.args.command == "add":
         app.add_pdf()
     else:

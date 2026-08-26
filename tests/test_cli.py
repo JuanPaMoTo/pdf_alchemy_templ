@@ -10,7 +10,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from pdf_alchemy_templ.cmdline import Cmdline
 from pdf_alchemy_templ.parseargs import PDFArgumentParser
 
-ASSET_PDF = PROJECT_ROOT / "pdf_alchemy" / "tests" / "assets" / "test_alchemy.pdf"
+ASSET_PDF = PROJECT_ROOT / "pdf_alchemy_templ" / "tests" / "assets" / "test_alchemy.pdf"
 
 
 def run_cmdline(args_list, capsys):
@@ -27,6 +27,10 @@ def run_cmdline(args_list, capsys):
         app.del_range()
     elif args.crop_half:
         app.crop_half()
+    elif getattr(args, 'reorder', None):
+        app.reorder_pages()
+    elif getattr(args, 'to_image', None):
+        app.to_image()
     elif args.command == "add":
         app.add_pdf()
     else:
@@ -119,3 +123,31 @@ def test_crop_half(tmp_path, capsys):
 
 # Don't modify above,
 # Add your tests for the 2 new functionalities below
+
+def test_reorder_pages(tmp_path, capsys):
+    out_pdf = tmp_path / "reordered.pdf"
+    run_cmdline([
+        "-f", str(ASSET_PDF),
+        "-o", str(out_pdf),
+        "-r", "2", "1"
+    ], capsys)
+    assert out_pdf.is_file()
+    out_doc = fitz.open(out_pdf)
+    # Comprobamos que el archivo nuevo tiene exactamente 2 páginas
+    assert out_doc.page_count == 2
+    out_doc.close()
+
+def test_to_image(tmp_path, capsys):
+    out_dir = tmp_path / "images_output"
+    run_cmdline([
+        "-f", str(ASSET_PDF),
+        "-o", str(out_dir),
+        "-img", "1-2"
+    ], capsys)
+    
+    img1 = out_dir / "page_1.png"
+    img2 = out_dir / "page_2.png"
+    
+    # Comprobamos que ambos archivos de imagen se crearon
+    assert img1.is_file()
+    assert img2.is_file()

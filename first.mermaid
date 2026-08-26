@@ -1,0 +1,47 @@
+---
+config:
+  layout: elk
+---
+graph TB
+    subgraph actors[" "]
+        Estudiante["👤 Estudiante"]
+        Docente["👤 Docente"]
+        AdminTI["👤 Administrador de TI"]
+    end
+    
+    subgraph uninotas["UniNotas System"]
+        UniNotas["UniNotas<br/>Sistema de Gestión de Calificaciones"]
+    end
+    
+    subgraph externos[" "]
+        subgraph gcp["Google Cloud Platform (GCP)"]
+            Firebase["🔐 Firebase Authentication"]
+            FCM["📲 Firebase Cloud Messaging"]
+        end
+        
+        Oracle["🗄️ ERP Oracle Legacy"]
+    end
+    
+    Estudiante -->|Consulta calificaciones| UniNotas
+    Docente -->|Registra y publica calificaciones| UniNotas
+    AdminTI -->|Supervisa la operación| UniNotas
+    
+    UniNotas -->|Autenticación y<br/>control de acceso| Firebase
+    UniNotas -->|Envío de<br/>notificaciones push| FCM
+    UniNotas -->|Sincronización<br/>de notas| Oracle
+    
+    classDef actor fill:#f0f9ff,stroke:#38bdf8,stroke-width:2px,color:#000
+    classDef sistema fill:#f5f3ff,stroke:#a78bfa,stroke-width:3px,color:#000
+    classDef externo fill:#f0fdf4,stroke:#4ade80,stroke-width:2px,color:#000
+    classDef grupoActores fill:none,stroke:none
+    classDef grupoUninotas fill:none,stroke:#a78bfa,stroke-width:3px,stroke-dasharray:5 5
+    classDef grupoExternos fill:none,stroke:none
+    classDef grupoGCP fill:#ecfeff,stroke:#22d3ee,stroke-width:2px,stroke-dasharray:5 5
+    
+    class Estudiante,Docente,AdminTI actor
+    class UniNotas sistema
+    class Firebase,FCM,Oracle externo
+    class actors grupoActores
+    class uninotas grupoUninotas
+    class externos grupoExternos
+    class gcp grupoGCP
